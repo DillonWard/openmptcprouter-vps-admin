@@ -1712,7 +1712,7 @@ async def config(userid: Optional[int] = Query(None), serial: Optional[str] = Qu
     if os.path.isfile('/etc/v2ray/v2ray-server.json'):
         v2ray = True
         if not 'v2ray' in omr_config_data['users'][0][username]:
-            v2ray_key = os.popen("jq -r '.inbounds[0].settings.clients[] | select(.email=" + '"' + username + '"' + ") | .id' /etc/v2ray/v2ray-server.json").read().rstrip()
+            v2ray_key = os.popen("jq -r '.inbounds[0].settings.clients[] | select(.email==" + '"' + username + '"' + ") | .id' /etc/v2ray/v2ray-server.json").read().rstrip()
             v2ray_port = os.popen('jq -r .inbounds[0].port /etc/v2ray/v2ray-server.json').read().rstrip()
             v2ray_conf = { 'key': v2ray_key, 'port': v2ray_port}
             modif_config_user(username, {'v2ray': v2ray_conf})
@@ -1729,9 +1729,9 @@ async def config(userid: Optional[int] = Query(None), serial: Optional[str] = Qu
     if os.path.isfile('/etc/xray/xray-server.json'):
         xray = True
         if not 'xray' in omr_config_data['users'][0][username]:
-            xray_key = os.popen("jq -r '.inbounds[0].settings.clients[] | select(.email=" + '"' + username + '"' + ") | .id' /etc/xray/xray-server.json").read().rstrip()
+            xray_key = os.popen("jq -r '.inbounds[0].settings.clients[] | select(.email==" + '"' + username + '"' + ") | .id' /etc/xray/xray-server.json").read().rstrip()
             xray_ss_skey = os.popen("jq -r '.inbounds[] | select(.tag==" + '"' + 'omrin-shadowsocks-tunnel' + '"' + ") | .settings.password' /etc/xray/xray-server.json").read().rstrip()
-            xray_ss_ukey = os.popen("jq -r '.inbounds[] | select(.tag==" + '"' + 'omrin-shadowsocks-tunnel' + '"' + ") | .settings.clients[] | select(.email=" + '"' + username + '"' + ") | .password' /etc/xray/xray-server.json").read().rstrip()
+            xray_ss_ukey = os.popen("jq -r '.inbounds[] | select(.tag==" + '"' + 'omrin-shadowsocks-tunnel' + '"' + ") | .settings.clients[] | select(.email==" + '"' + username + '"' + ") | .password' /etc/xray/xray-server.json").read().rstrip()
             xray_ss_key = xray_ss_skey + ':' + xray_ss_ukey
             xray_port = os.popen('jq -r .inbounds[0].port /etc/xray/xray-server.json').read().rstrip()
             xray_ss_method = os.popen("jq -r '.inbounds[] | select(.tag==" + '"' + 'omrin-shadowsocks-tunnel' + '"' + ") | .settings.method' /etc/xray/xray-server.json").read().rstrip()
@@ -1758,9 +1758,9 @@ async def config(userid: Optional[int] = Query(None), serial: Optional[str] = Qu
     if os.path.isfile('/etc/shadowsocks-go/server.json'):
         shadowsocks_go = True
         if not 'shadowsocks-go' in omr_config_data['users'][0][username]:
-            shadowsocks_go_psk = os.popen("jq -r '.servers[] | select(.name=" + '"ss-2022"' + ") | .psk' /etc/shadowsocks-go/server.json").read().rstrip()
-            shadowsocks_go_port = os.popen("jq -r '.servers[] | select(.name=" + '"ss-2022"' + ") | .tcpListeners[0].address' /etc/shadowsocks-go/server.json | cut -d ':' -f1").read().rstrip()
-            shadowsocks_go_protocol = os.popen("jq -r '.servers[] | select(.name=" + '"ss-2022"' + ") | .protocol' /etc/shadowsocks-go/server.json").read().rstrip()
+            shadowsocks_go_psk = os.popen("jq -r '.servers[] | select(.name==" + '"ss-2022"' + ") | .psk' /etc/shadowsocks-go/server.json").read().rstrip()
+            shadowsocks_go_port = os.popen("jq -r '.servers[] | select(.name==" + '"ss-2022"' + ") | .tcpListeners[0].address' /etc/shadowsocks-go/server.json | cut -d ':' -f1").read().rstrip()
+            shadowsocks_go_protocol = os.popen("jq -r '.servers[] | select(.name==" + '"ss-2022"' + ") | .protocol' /etc/shadowsocks-go/server.json").read().rstrip()
             shadowsocks_go_upsk = os.popen("jq -r --arg user " + '"' + username + '"' + " '.[$user]' /etc/shadowsocks-go/upsks.json").read().rstrip()
             shadowsocks_go_conf= { 'password': shadowsocks_go_psk + ':' + shadowsocks_go_upsk, 'port': shadowsocks_go_port, 'protocol': shadowsocks_go_protocol }
             modif_config_user(username, {'shadowsocks-go': shadowsocks_go_conf})
@@ -2343,7 +2343,7 @@ def v2ray(*, params: V2rayconfig, current_user: User = Depends(get_current_user)
     #    json.dump(v2ray_config, outfile, indent=4)
     username = current_user.username
     final_md5 = hashlib.md5(file_as_bytes(open('/etc/v2ray/v2ray-server.json', 'rb'))).hexdigest()
-    v2ray_key = os.popen("jq -r '.inbounds[0].settings.clients[] | select(.email=" + '"' + username + '"' + ") | .id' /etc/v2ray/v2ray-server.json").read().rstrip()
+    v2ray_key = os.popen("jq -r '.inbounds[0].settings.clients[] | select(.email==" + '"' + username + '"' + ") | .id' /etc/v2ray/v2ray-server.json").read().rstrip()
     v2ray_port = os.popen('jq -r .inbounds[0].port /etc/v2ray/v2ray-server.json').read().rstrip()
     v2ray_conf = { 'key': v2ray_key, 'port': v2ray_port}
     modif_config_user(username, {'v2ray': v2ray_conf})
@@ -2395,9 +2395,9 @@ def xray(*, params: Xrayconfig, current_user: User = Depends(get_current_user)):
     #    json.dump(xray_config, outfile, indent=4)
     username = current_user.username
     final_md5 = hashlib.md5(file_as_bytes(open('/etc/xray/xray-server.json', 'rb'))).hexdigest()
-    xray_key = os.popen("jq -r '.inbounds[0].settings.clients[] | select(.email=" + '"' + username + '"' + ") | .id' /etc/xray/xray-server.json").read().rstrip()
+    xray_key = os.popen("jq -r '.inbounds[0].settings.clients[] | select(.email==" + '"' + username + '"' + ") | .id' /etc/xray/xray-server.json").read().rstrip()
     xray_ss_skey = os.popen("jq -r '.inbounds[] | select(.tag==" + '"' + 'omrin-shadowsocks-tunnel' + '"' + ") | .settings.password' /etc/xray/xray-server.json").read().rstrip()
-    xray_ss_ukey = os.popen("jq -r '.inbounds[] | select(.tag==" + '"' + 'omrin-shadowsocks-tunnel' + '"' + ") | .settings.clients[] | select(.email=" + '"' + username + '"' + ") | .password' /etc/xray/xray-server.json").read().rstrip()
+    xray_ss_ukey = os.popen("jq -r '.inbounds[] | select(.tag==" + '"' + 'omrin-shadowsocks-tunnel' + '"' + ") | .settings.clients[] | select(.email==" + '"' + username + '"' + ") | .password' /etc/xray/xray-server.json").read().rstrip()
     xray_ss_key = xray_ss_skey + ':' + xray_ss_ukey
     xray_port = os.popen('jq -r .inbounds[0].port /etc/xray/xray-server.json').read().rstrip()
     test_vless_reality = os.popen("jq -r '.inbounds[] | select(.tag==" + '"' + 'omrin-vless-reality' + '"' + ")' /etc/xray/xray-server.json").read().rstrip()

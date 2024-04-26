@@ -1,3 +1,9 @@
+omr-vps-admin (0.9+20240426) unstable; urgency=medium
+
+    * Fix V2Ray/XRay json data retrieve
+
+ -- OpenMPTCProuter <contact@openmptcprouter.com>  Fri, 24 Apr 2024 15:03:41 +0200
+
 omr-vps-admin (0.9+20240324) unstable; urgency=medium
 
     * Fix Shadowsocks Rust stats error
