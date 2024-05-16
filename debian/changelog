@@ -1,3 +1,9 @@
+omr-vps-admin (0.9+20240516) unstable; urgency=medium
+
+    * Fix Shadowsocks-Go user creation
+
+ -- OpenMPTCProuter <contact@openmptcprouter.com>  Thu, 16 May 2024 16:43:12 +0200
+
 omr-vps-admin (0.9+20240426) unstable; urgency=medium
 
     * Fix V2Ray/XRay json data retrieve

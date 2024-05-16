@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2018-2023 Ycarus (Yannick Chabanois) <ycarus@zugaina.org> for OpenMPTCProuter
+# Copyright (C) 2018-2024 Ycarus (Yannick Chabanois) <ycarus@zugaina.org> for OpenMPTCProuter
 #
 # This is free software, licensed under the GNU General Public License v3.0.
 # See /LICENSE for more information.
@@ -3122,7 +3122,7 @@ def add_user(*, params: NewUser, current_user: User = Depends(get_current_user))
 #    shadowsocks_port = '651{:02d}'.format(userid)
     shadowsocks_port = params.shadowsocks_port
     shadowsocks_key = base64.urlsafe_b64encode(secrets.token_hex(16).encode())
-    shadowsocks2022_key = base64.urlsafe_b64encode(secrets.token_hex(32).encode())
+    shadowsocks2022_key = base64.urlsafe_b64encode(secrets.token_hex(16).encode())
     if not publicips:
         if os.path.isfile('/etc/shadowsocks-libev/manager.json'):
             shadowsocks_port = add_ss_user(str(shadowsocks_port), shadowsocks_key.decode('utf-8'), userid)
